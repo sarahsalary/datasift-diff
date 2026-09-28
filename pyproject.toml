@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datasift-diff"
+version = "0.8.0"
+description = "Compare two datasets by key — files, remote URIs, git revisions, or databases."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "sarahsalary" }]
+keywords = ["diff", "data", "csv", "json", "compare", "git", "s3", "gcs", "database"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.optional-dependencies]
+tui = ["textual>=0.60.0"]
+datasift = ["datasift-py>=0.1.0"]
+excel = ["openpyxl>=3.1.0"]
+parquet = ["pyarrow>=14.0.0"]
+yaml = ["PyYAML>=6.0"]
+toml = ["tomli>=2.0; python_version < '3.11'"]
+xml = ["lxml>=5.0"]
+s3 = ["boto3>=1.34.0"]
+gcs = ["google-cloud-storage>=2.14.0"]
+http = []
+web = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "python-multipart>=0.0.9",
+]
+postgres = ["psycopg[binary]>=3.1.0"]
+mysql = ["PyMySQL>=1.1.0"]
+mssql = ["pyodbc>=5.1.0"]
+db = ["datasift-diff[postgres,mysql,mssql]"]
+anomaly = ["numpy>=1.24.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-asyncio>=0.21",
+    "ruff>=0.1",
+    "mypy>=1.0",
+    "build>=0.10",
+]
+all = [
+    "datasift-diff[tui,datasift,excel,parquet,yaml,toml,xml,s3,gcs,http,web,db,anomaly,dev]",
+]
+
+[project.scripts]
+datasift-diff = "datasift_diff.cli:main"
+datasift-diff-tui = "datasift_diff.tui:main"
+datasift-diff-serve = "datasift_diff.web:main"
+datasift-diff-anomaly = "datasift_diff.anomaly_cli:main"
+
+[project.entry-points."datasift_diff.schemes"]
+file = "datasift_diff.sources.file_source:FileSource"
+http = "datasift_diff.sources.http_source:HttpSource"
+https = "datasift_diff.sources.http_source:HttpSource"
+s3 = "datasift_diff.sources.s3_source:S3Source"
+gs = "datasift_diff.sources.gcs_source:GcsSource"
+sqlite = "datasift_diff.sources.db_source:SqliteSource"
+postgres = "datasift_diff.sources.db_source:PostgresSource"
+postgresql = "datasift_diff.sources.db_source:PostgresSource"
+mysql = "datasift_diff.sources.db_source:MySqlSource"
+mssql = "datasift_diff.sources.db_source:MssqlSource"
+
+[project.entry-points."datasift_diff.formats"]
+csv = "datasift_diff.plugins:CsvPlugin"
+json = "datasift_diff.plugins:JsonPlugin"
+jsonl = "datasift_diff.plugins:JsonlPlugin"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
