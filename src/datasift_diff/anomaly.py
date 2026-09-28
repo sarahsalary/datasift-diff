@@ -262,11 +262,11 @@ def update_history_from_result(
         if not change.new_record:
             continue
         key_str = change.key_str()
-        for field, value in change.new_record.items():
+        for fname, value in change.new_record.items():
             num = _parse_number(value)
             if num is None:
                 continue
-            history.record(key_str, field, num)
+            history.record(key_str, fname, num)
             count += 1
 
     return count
@@ -291,10 +291,10 @@ def load_history_from_runs(
         for record in data.get("added", []):
             key = _key_from_dict(record)
             new_record = record.get("new_record") or {}
-            for field, value in new_record.items():
+            for fname, value in new_record.items():
                 num = _parse_number(value)
                 if num is not None:
-                    store.record(key, field, num)
+                    store.record(key, fname, num)
     return store
 
 

@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 from datasift_diff import __version__
-from datasift_diff.core import DiffError, diff, _normalize_keys
+from datasift_diff.core import DiffError, _normalize_keys, diff
 from datasift_diff.io import DataLoadError, load_records
 from datasift_diff.plugins import get_registry
 from datasift_diff.reporters import render
@@ -157,7 +157,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.validate:
         try:
             from datasift_diff.validation import (
-                ValidationError, validate_before_diff,
+                ValidationError,
+                validate_before_diff,
             )
             old_records = load_records(args.old)
             new_records = load_records(args.new)
@@ -195,7 +196,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.anomaly_history:
         try:
             from datasift_diff.anomaly import (
-                AnomalyDetector, AnomalyError, HistoryStore,
+                AnomalyDetector,
+                AnomalyError,
+                HistoryStore,
                 update_history_from_result,
             )
             history = HistoryStore(args.anomaly_history)

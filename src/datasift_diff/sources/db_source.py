@@ -253,7 +253,6 @@ class MySqlSource(RowStreamSource):
         chunk_size: int = 1000,
     ) -> Iterator[dict[str, Any]]:
         pymysql = _import_pymysql()
-        import pymysql.cursors
 
         params = _parse_db_uri(uri)
         sql = _build_sql_query(table, query, columns, where, order_by, limit)

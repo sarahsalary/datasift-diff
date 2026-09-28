@@ -86,8 +86,27 @@ addopts = "-q"
 
 [tool.ruff]
 line-length = 100
-target-version = "py39"
+target-version = "py310"
+
+[tool.ruff.lint]
+# فقط قوانین مهم رو فعال کن، نه ALL
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes (unused imports, undefined names)
+    "I",    # isort (import sorting)
+    "W",    # pycodestyle warnings
+]
+ignore = [
+    "E501",  # line too long
+    "E402",  # module level import not at top
+    "F401",  # unused imports
+    "F841",  # unused local variables
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["F401", "F841", "E402"]
+"src/datasift_diff/web.py" = ["B008"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 ignore_missing_imports = true

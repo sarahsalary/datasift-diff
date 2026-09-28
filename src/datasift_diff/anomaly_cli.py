@@ -14,8 +14,8 @@ from datasift_diff.anomaly import (
     load_history_from_runs,
     update_history_from_result,
 )
-from datasift_diff.io import DataLoadError
 from datasift_diff.core import DiffError, diff
+from datasift_diff.io import DataLoadError
 
 
 def build_parser() -> argparse.ArgumentParser:
